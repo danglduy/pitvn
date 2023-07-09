@@ -1,6 +1,6 @@
 import SalaryInput from './input/SalaryInput'
-import Result from './result/result'
-import Tax from './tax/tax'
+import Result from './result/Result'
+import Tax from './tax/Tax'
 
 export default function MonthlySalaries() {
   return (

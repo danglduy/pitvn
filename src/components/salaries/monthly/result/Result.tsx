@@ -13,7 +13,7 @@ function ResultRow(props: { label: string; value: number; top?: boolean }) {
   )
 }
 
-function  Result() {
+function Result() {
   return (
     <div className="mt-4 ring-1 ring-gray-300 sm:mx-0 sm:rounded-lg">
       <table className="min-w-full table-fixed divide-y divide-gray-300">
