@@ -2,7 +2,7 @@ import { Disclosure } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import clsx from 'clsx'
 
-// import YearlySalaries
+// import YearlySalaries from './components/salaries/yearly/YearlySalaries'
 import MonthlySalaries from './components/salaries/monthly/MonthlySalaries'
 
 const navigation = [
