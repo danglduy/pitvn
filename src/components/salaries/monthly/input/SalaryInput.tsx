@@ -73,7 +73,7 @@ function RegionInput() {
 
   const renderOptions = () => {
     return regions.map((region, index) => (
-      <div className="flex items-center gap-x-3">
+      <div className="flex items-center gap-x-3" key={region.name}>
         <input
           id={region.name}
           name="region"
