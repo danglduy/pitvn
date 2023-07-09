@@ -3,7 +3,7 @@ import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import clsx from 'clsx'
 
 // import YearlySalaries
-// import MonthlySalaries
+import MonthlySalaries from './components/salaries/monthly/MonthlySalaries'
 
 const navigation = [
   { name: 'Lương tháng', href: '#', current: true },
@@ -99,7 +99,7 @@ export default function App() {
         <main>
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             {/* <YearlySalaries /> */}
-            {/* <MonthlySalaries /> */}
+            <MonthlySalaries />
           </div>
         </main>
       </div>
