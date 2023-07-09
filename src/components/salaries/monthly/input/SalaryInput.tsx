@@ -1,4 +1,7 @@
+import { ChangeEvent, useCallback } from 'react'
 import CurrencyInput from 'react-currency-input-field'
+import clsx from 'clsx'
+import { useMonthlySalariesStore } from '../store'
 
 function PolicyInput() {
   const policies = [
@@ -73,7 +76,7 @@ function RegionInput() {
 
   const renderOptions = () => {
     return regions.map((region, index) => (
-      <div className="flex items-center gap-x-3">
+      <div className="flex items-center gap-x-3" key={region.name}>
         <input
           id={region.name}
           name="region"
@@ -107,6 +110,18 @@ function RegionInput() {
 }
 
 function GrossSalaryInput() {
+  const { grossSalaryInput, setInput } = useMonthlySalariesStore((state) => ({
+    grossSalaryInput: state.grossSalaryInput,
+    setInput: state.setInput,
+  }))
+
+  const onValueChange = useCallback(
+    (value: string | undefined) => {
+      setInput('grossSalaryInput', value || '')
+    },
+    [setInput],
+  )
+
   return (
     <>
       <label
@@ -123,6 +138,8 @@ function GrossSalaryInput() {
           className="block w-full rounded-md border-0 py-1.5 pr-12 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
           aria-describedby="gross-salary-currency"
           intlConfig={{ locale: 'vi-VN' }}
+          value={grossSalaryInput}
+          onValueChange={onValueChange}
         />
         <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
           <span className="text-gray-500 sm:text-sm" id="gross-salary-currency">
@@ -151,6 +168,20 @@ const renderButtons = () => {
 }
 
 function InsuranceSalaryInput() {
+  const { insuranceSalaryInput, setInput } = useMonthlySalariesStore(
+    (state) => ({
+      insuranceSalaryInput: state.insuranceSalaryInput,
+      setInput: state.setInput,
+    }),
+  )
+
+  const onValueChange = useCallback(
+    (value: string | undefined) => {
+      setInput('insuranceSalaryInput', value || '')
+    },
+    [setInput],
+  )
+
   return (
     <>
       <label
@@ -167,6 +198,8 @@ function InsuranceSalaryInput() {
           className="block w-full rounded-md border-0 py-1.5 pr-12 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
           aria-describedby="insurance-salary-currency"
           intlConfig={{ locale: 'vi-VN' }}
+          value={insuranceSalaryInput}
+          onValueChange={onValueChange}
         />
         <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
           <span
@@ -182,6 +215,21 @@ function InsuranceSalaryInput() {
 }
 
 function DependantsInput() {
+  const { dependantsInput, setInput, hasError } = useMonthlySalariesStore(
+    (state) => ({
+      dependantsInput: state.dependantsInput,
+      setInput: state.setInput,
+      hasError: state.errors.includes('dependantsInput'),
+    }),
+  )
+
+  const onChange = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      setInput('dependantsInput', e.currentTarget.value)
+    },
+    [setInput],
+  )
+
   return (
     <>
       <label
@@ -196,7 +244,12 @@ function DependantsInput() {
           name="dependants"
           id="dependants"
           placeholder="0"
-          className="block w-full rounded-md border-0 py-1.5 pr-14 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+          className={clsx(
+            hasError ? 'ring-red-300 focus:ring-red-500' : 'ring-gray-300 focus:ring-indigo-600',
+            'block w-full rounded-md border-0 py-1.5 pr-14 text-gray-900 ring-1 ring-inset placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6',
+          )}
+          value={dependantsInput}
+          onChange={onChange}
         />
         <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
           <span
@@ -207,6 +260,9 @@ function DependantsInput() {
           </span>
         </div>
       </div>
+      {hasError && (
+        <p className="mt-2 text-sm text-red-600">Phải nhập số vào ô.</p>
+      )}
     </>
   )
 }
