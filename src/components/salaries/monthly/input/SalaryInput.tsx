@@ -1,5 +1,6 @@
 import { ChangeEvent, useCallback } from 'react'
 import CurrencyInput from 'react-currency-input-field'
+import clsx from 'clsx'
 import { useMonthlySalariesStore } from '../store'
 
 function PolicyInput() {
@@ -214,10 +215,13 @@ function InsuranceSalaryInput() {
 }
 
 function DependantsInput() {
-  const { dependantsInput, setInput } = useMonthlySalariesStore((state) => ({
-    dependantsInput: state.dependantsInput,
-    setInput: state.setInput,
-  }))
+  const { dependantsInput, setInput, hasError } = useMonthlySalariesStore(
+    (state) => ({
+      dependantsInput: state.dependantsInput,
+      setInput: state.setInput,
+      hasError: state.errors.includes('dependantsInput'),
+    }),
+  )
 
   const onChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
@@ -240,7 +244,10 @@ function DependantsInput() {
           name="dependants"
           id="dependants"
           placeholder="0"
-          className="block w-full rounded-md border-0 py-1.5 pr-14 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+          className={clsx(
+            hasError ? 'ring-red-300 focus:ring-red-500' : 'ring-gray-300 focus:ring-indigo-600',
+            'block w-full rounded-md border-0 py-1.5 pr-14 text-gray-900 ring-1 ring-inset placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6',
+          )}
           value={dependantsInput}
           onChange={onChange}
         />
@@ -253,6 +260,9 @@ function DependantsInput() {
           </span>
         </div>
       </div>
+      {hasError && (
+        <p className="mt-2 text-sm text-red-600">Phải nhập số vào ô.</p>
+      )}
     </>
   )
 }
